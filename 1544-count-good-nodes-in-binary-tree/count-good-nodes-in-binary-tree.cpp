@@ -17,7 +17,7 @@ public:
         maxi=max(root->val,maxi);
         if(maxi==root->val) ans++;
         recur(root->left,maxi);
-        maxi=max(maxi,root->val);
+        // maxi=max(maxi,root->val);
         recur(root->right,maxi);
     }
     int goodNodes(TreeNode* root) {
