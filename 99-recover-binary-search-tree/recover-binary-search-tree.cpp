@@ -11,26 +11,35 @@
  */
 class Solution {
 public:
-    vector<TreeNode*> inorder;
+    stack<TreeNode*> st;
+    TreeNode* prev=NULL;
+    TreeNode* curr=NULL;
+    TreeNode* first=NULL;
+    TreeNode* second=NULL;
+    void pushleft(TreeNode* root){
+        if(!root) return;
+        while(root){
+            st.push(root);
+            root=root->left;
+        }
+    }
     void recur(TreeNode* root){
         if(!root) return;
-        recur(root->left);
-        inorder.push_back(root);
-        recur(root->right);
+        pushleft(root);
+        while(!st.empty()){
+            curr=st.top();st.pop();
+        pushleft(curr->right);
+        if(prev && curr){
+            if(prev->val>curr->val){
+                if(!first) first=prev;
+                second=curr;
+            }
+        }
+        prev=curr;
+        }
     }
     void recoverTree(TreeNode* root) {
         recur(root);
-        TreeNode* a = NULL;
-        TreeNode* b = NULL;
-        int n = inorder.size();
-        for(int i=0;i<n-1;i++){
-            TreeNode* node1=inorder[i];
-            TreeNode* node2=inorder[i+1];
-            if(node1->val>node2->val){
-                if(!a) a=node1;
-                b=node2;
-            }
-        }
-        swap(a->val,b->val);
+        swap(first->val,second->val);
     }
 };
